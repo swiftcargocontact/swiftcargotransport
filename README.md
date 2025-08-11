@@ -2,7 +2,7 @@
 No build tools. Just open `index.html` in a browser or upload the folder to Netlify / Vercel / GitHub Pages / any host.
 
 ## Replace these before going live
-- **Stripe buttons:** In the Pricing section, change the `href` of each “Buy Now” button to your Stripe Payment Link (e.g. `https://buy.stripe.com/...`).  
+- **Payment buttons:** In the Pricing section, change the `href` of each “Buy Now” button to your Payment Link.
 - **Contact form:** Replace the `form action="#"` with a Formspree or Netlify Forms endpoint.
 - **Fleet images:** Drop your photos into `/images` and keep the file names or update the `<img src>` paths.
 
