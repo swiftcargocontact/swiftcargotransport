@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SwiftCargo Transport • Fast, Reliable Transport</title>
+  <meta name="description" content="Cargo transportation services with transparent pricing and fast delivery. Book small, medium, or bulk shipments in minutes." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+    :root{--bg:#0b0e14;--card:#121826;--muted:#8b94ab;--text:#e6eaf2;--primary:#4f8cff;--primary-600:#3b76f6;--accent:#22d3ee;--ring:rgba(79,140,255,0.45);--shadow:0 10px 30px rgba(0,0,0,.35),0 6px 10px rgba(0,0,0,.25);--radius:18px;--star:#f6c33b;--success:#22c55e}
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:linear-gradient(180deg,#0b0e14 0%,#0e1320 100%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{width:100%;max-width:1140px;margin:0 auto;padding:0 20px}
+
+    /* Header/Nav */
+    header{position:sticky;top:0;z-index:50;background:rgba(11,14,20,.6);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .brand{display:flex;align-items:center;gap:.75rem;font-weight:800}
+    .logo{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--primary) 0%,var(--accent) 100%);box-shadow:0 6px 18px rgba(79,140,255,.45)}
+    .menu{display:flex;align-items:center;gap:24px}
+    .menu a{color:var(--muted);font-weight:600}
+    .menu a:hover{color:var(--text)}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:12px 18px;border-radius:14px;background:var(--primary);color:white;font-weight:700;box-shadow:0 8px 18px rgba(79,140,255,.35);transition:.18s transform ease,.18s box-shadow ease,.18s background ease}
+    .btn:hover{transform:translateY(-1px);background:var(--primary-600);box-shadow:0 10px 24px rgba(79,140,255,.45)}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.12);color:var(--text);box-shadow:none}
+
+    /* Mobile nav */
+    .mobile-toggle{display:none;border:1px solid rgba(255,255,255,.15);background:transparent;color:var(--text);padding:8px 10px;border-radius:12px}
+    .mobile-toggle svg{display:block}
+    .mobile-panel{display:none}
+    .mobile-panel.open{display:block}
+    .mobile-panel .menu-col{display:grid;gap:14px;padding:14px}
+
+    .section{padding:72px 0}
+    section[id]{scroll-margin-top:92px}
+
+    /* Hero */
+    .hero{padding-top:100px;padding-bottom:72px;}
+    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:stretch}
+    .hero-left{display:flex;flex-direction:column;min-height:420px}
+    .hero h1{font-size:clamp(32px,4vw,56px);line-height:1.05;margin:0 0 12px}
+    .hero p{font-size:clamp(15px,1.8vw,18px);color:var(--muted);margin:0 0 12px}
+    .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:4px}
+    .hero-bottom{margin-top:auto}
+    .hero-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:18px}
+    .metric{background:var(--card);border:1px solid rgba(255,255,255,.08);padding:16px;border-radius:14px;position:relative;overflow:hidden}
+    .metric .k{font-size:22px;font-weight:800;display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+    .metric .label{font-size:13px;color:var(--muted)}
+    .metric.good::after{content:"";position:absolute;inset:auto 12px 12px auto;width:8px;height:8px;border-radius:999px;background:var(--success)}
+    .metric .stars{flex-shrink:0}
+
+    /* Illu pane + right column stretch */
+    .hero-illu{background:radial-gradient(60% 60% at 60% 40%,rgba(79,140,255,.25),transparent 60%),radial-gradient(40% 40% at 30% 70%,rgba(34,211,238,.16),transparent 60%);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);display:flex;align-items:stretch}
+    .hero-illu .pane{
+      background:var(--card);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:14px;
+      padding:24px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:24px;
+      align-items:stretch;    /* stretch columns to full height */
+      align-content:stretch;
+      grid-auto-rows:min-content;
+      flex:1;
+      height:100%;
+    }
+    /* each column fills, keeps existing structure */
+    .hero-illu .pane > *{display:flex;flex-direction:column;min-height:100%}
+
+    .badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(34,211,238,.15);color:#a8f8ff;border:1px solid rgba(34,211,238,.35);padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700;margin-bottom:10px}
+
+    /* Icon bullets */
+    .i{width:18px;height:18px;flex:0 0 18px;opacity:.95}
+    .row{display:flex;align-items:flex-start;gap:10px;color:var(--muted);font-size:14px}
+    .vstack{display:flex;flex-direction:column;gap:12px;height:100%}
+    /* Let the benefits grid expand; keep pill at bottom */
+    .vstack > .benefits{flex:1}
+    .vstack > .pill{margin-top:auto}
+
+    .benefits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:stretch;grid-auto-rows:1fr}
+
+    /* FIX: Align icon badges and text perfectly */
+    .benefits .tile{
+      display:flex;               /* changed from grid to flex */
+      align-items:center;         /* vertical centering */
+      gap:12px;
+      background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:12px;
+      padding:14px;
+      box-sizing:border-box;
+      overflow:hidden;
+      height:100%;
+    }
+    .icon-badge{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--primary) 0%, var(--accent) 100%);box-shadow:0 6px 18px rgba(79,140,255,.35);line-height:0}
+    .icon-badge svg{width:18px;height:18px;color:white}
+    .icon-badge.sm{width:32px;height:32px;border-radius:8px}
+    ul.features{padding-left:0;list-style:none;margin:0}
+    ul.features li{display:flex;align-items:center;gap:10px;line-height:1.25}
+
+    /* Stars */
+    .stars{display:inline-flex;gap:2px;vertical-align:middle}
+    .stars svg{width:16px;height:16px;fill:var(--star);filter:drop-shadow(0 2px 4px rgba(246,195,59,.25))}
+
+    /* Pricing */
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);display:flex;flex-direction:column}
+    .card h3{margin:0 0 8px}
+    .price{font-size:34px;font-weight:800;margin:8px 0}
+    .features{color:var(--muted);font-size:14px;display:grid;gap:8px;margin:12px 0}
+    .features li{display:flex;align-items:flex-start;gap:8px}
+
+    /* FIX: Extra breathing room above Buy Now */
+    .card .features{margin-bottom:16px}
+    .card .btn{margin-top:16px}
+
+    .pill{display:inline-flex;gap:.4rem;align-items:center;background:rgba(79,140,255,.15);border:1px solid rgba(79,140,255,.35);padding:6px 12px;border-radius:8px;font-size:14px;font-weight:800;letter-spacing:.2px;margin-bottom:14px}
+
+    /* Steps */
+    .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+    .step{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px}
+    .step .n{font-weight:800;color:var(--accent);font-size:12px;letter-spacing:.12em}
+
+    /* Fleet Gallery */
+    .gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+    .gallery figure{margin:0;background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+    .gallery img{width:100%;height:220px;object-fit:cover;display:block;cursor:zoom-in}
+    .gallery figcaption{padding:10px 12px;font-size:13px;color:var(--muted)}
+
+    /* Lightbox */
+    .lightbox{position:fixed;inset:0;background:rgba(5,8,15,.8);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:20px}
+    .lightbox.open{display:flex}
+    .lightbox-inner{max-width:min(96vw,1100px);max-height:90vh;background:#0e1422;border:1px solid rgba(255,255,255,.1);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+    .lightbox img{display:block;max-width:100%;max-height:70vh;object-fit:contain}
+    .lightbox .caption{padding:10px 14px;color:var(--muted);font-size:14px;border-top:1px solid rgba(255,255,255,.08)}
+    .lightbox .close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--text);border-radius:12px;padding:8px 10px;cursor:pointer}
+
+    /* Testimonials */
+    .testimonials{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+    .quote{background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px}
+    .quote .name{font-weight:700;margin-top:8px}
+    .quote .role{color:var(--muted);font-size:13px}
+
+    /* FAQ boxes */
+    #faq details{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px 18px;margin-bottom:14px;box-shadow:var(--shadow);transition:border-color .2s ease,background .2s ease}
+    #faq details:hover{border-color:var(--primary);background:rgba(79,140,255,.08)}
+    #faq summary{cursor:pointer;font-weight:600;color:var(--text)}
+    #faq p{margin-top:8px;color:var(--muted);font-size:14px}
+
+    /* Form */
+    form{display:grid;gap:12px}
+    input,select,textarea{background:#0c1220;border:1px solid rgba(255,255,255,.12);color:var(--text);padding:12px 14px;border-radius:12px;outline:none}
+    input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0 0 0 4px var(--ring)}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    form .full{grid-column:1 / -1}
+    .notes{min-height:140px}
+
+    /* Footer */
+    footer{padding:48px 0;color:var(--muted);border-top:1px solid rgba(255,255,255,.06)}
+    .footer-links{display:flex;gap:16px;font-size:14px;align-items:center;justify-content:flex-end}
+
+    /* Responsive */
+    @media (max-width:1024px){.hero-grid{grid-template-columns:1fr}.hero-illu .pane{grid-template-columns:1fr}.benefits{grid-template-columns:1fr 1fr}}
+    @media (max-width:960px){.grid-2{grid-template-columns:1fr}.gallery{grid-template-columns:1fr 1fr}}
+    @media (max-width:640px){
+      .menu.desktop{display:none}
+      .mobile-toggle{display:inline-flex}
+      .gallery{grid-template-columns:1fr}
+      .hero{padding-top:72px;padding-bottom:48px;}
+      .footer-links{justify-content:center}
+      .benefits{grid-template-columns:1fr}
+    }
+</style>
+
+
+
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#top"><div class="logo" aria-hidden="true"></div><span>SwiftCargo Transport</span></a>
+      <nav class="menu desktop">
+        <a href="#fleet">Fleet</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#how">How it works</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact" class="btn">Get a Quote</a>
+      </nav>
+      <button class="mobile-toggle" aria-controls="mobile-panel" aria-expanded="false" aria-label="Toggle menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    </div>
+    <div id="mobile-panel" class="mobile-panel" aria-hidden="true" style="border-top:1px solid rgba(255,255,255,.08);background:rgba(11,14,20,.9);backdrop-filter:blur(8px)">
+      <div class="container"><div class="menu-col">
+        <a href="#fleet">Fleet</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#how">How it works</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact" class="btn">Get a Quote</a>
+      </div></div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero container">
+      <div class="hero-grid">
+        <div class="hero-left">
+          <div>
+            <div class="badge">FAST • INSURED • DOOR‑TO‑DOOR</div>
+            <h1>Ship cargo in minutes, not days.</h1>
+            <p>Secure, compliant, and on time. Europe-wide transport for high-value and hazardous cargo — booked in just a few clicks.</p>
+          </div>
+          <div class="hero-bottom">
+            <div class="hero-ctas">
+              <a href="#pricing" class="btn">See Packages</a>
+              <a href="#contact" class="btn ghost">Custom Quote</a>
+            </div>
+            <div class="hero-metrics">
+              <div class="metric good"><div class="k">10k+</div><div class="label">Shipments delivered</div></div>
+              <div class="metric good"><div class="k">98.6%</div><div class="label">On‑time rate</div></div>
+              <div class="metric"><div class="k">4.9★ <span class="stars" aria-label="Rating 4.9 out of 5">
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.7 5.46 6.03.88-4.36 4.25 1.03 6.01L10 15.9 4.6 18.1l1.03-6.01L1.27 7.84l6.03-.88L10 1.5z"/></svg>
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.7 5.46 6.03.88-4.36 4.25 1.03 6.01L10 15.9 4.6 18.1l1.03-6.01L1.27 7.84l6.03-.88L10 1.5z"/></svg>
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.7 5.46 6.03.88-4.36 4.25 1.03 6.01L10 15.9 4.6 18.1l1.03-6.01L1.27 7.84l6.03-.88L10 1.5z"/></svg>
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.7 5.46 6.03.88-4.36 4.25 1.03 6.01L10 15.9 4.6 18.1l1.03-6.01L1.27 7.84l6.03-.88L10 1.5z"/></svg>
+                <svg viewBox="0 0 20 20" aria-hidden="true" style="opacity:.5"><path d="M10 1.5l2.7 5.46 6.03.88-4.36 4.25 1.03 6.01L10 15.9 4.6 18.1l1.03-6.01L1.27 7.84l6.03-.88L10 1.5z"/></svg>
+              </span></div><div class="label">Customer rating</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-illu">
+          <div class="pane">
+            <div class="vstack">
+              <h4 style="display:flex;align-items:center;gap:10px;margin:0">
+                <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h13l5 5-5 5H3z"/></svg>
+                Instant Quote
+              </h4>
+              <div class="row">Get a price in seconds. Choose size & destination, pay securely, done.</div>
+              <ul class="features" style="margin-top:10px">
+                <li><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7H4v10h16zM4 10h16M8 14h.01"/></svg></span> Secure payments</li>
+                <li><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l1.41 1.41L9 9.83"/><path d="M20 7a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></span> Insurance included</li>
+                <li><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg></span> Pickup in 24h (most areas)</li>
+              </ul>
+            </div>
+            <div class="vstack">
+              <h4 style="display:flex;align-items:center;gap:10px;margin:0">
+                <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+                Coverage
+              </h4>
+              <div class="row">Domestic & EU cross‑border with express options.</div>
+              <!-- <div class="benefits" style="margin-top:10px">
+                <div class="tile">
+                  <span class="icon-badge sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h13l5 5-5 5H3z"/></svg></span>
+                  <div class="tile-text"><div class="tile-title" style="font-weight:800;font-size:16px;line-height:1">Road</div><div class="tile-sub" style="color:var(--muted);font-size:12px;line-height:1.2">Vans • Box trucks • Flatbeds</div></div>
+                </div>
+                <div class="tile">
+                  <span class="icon-badge sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l18-6-6 18-3-9-9-3z"/></svg></span>
+                  <div class="tile-text"><div class="tile-title" style="font-weight:800;font-size:16px;line-height:1">Air</div><div class="tile-sub" style="color:var(--muted);font-size:12px;line-height:1.2">Priority lanes</div></div>
+                </div>
+                <div class="tile">
+                  <span class="icon-badge sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+                  <div class="tile-text"><div class="tile-title" style="font-weight:800;font-size:16px;line-height:1">Express</div><div class="tile-sub" style="color:var(--muted);font-size:12px;line-height:1.2">Same/next‑day</div></div>
+                </div>
+              </div>
+              <div class="pill" style="margin-top:12px;display:inline-flex">Live tracking • 24/7 support</div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fleet Gallery -->
+    <section id="fleet" class="section" style="padding-top:0">
+      <div class="container">
+        <h2 style="margin:0 0 8px">Our Fleet</h2>
+        <p style="color:var(--muted);margin:0 0 18px">Reliable, well‑maintained vehicles ready for all cargo needs.</p>
+        <div class="gallery">
+          <figure><img src="images/van-1.jpg" alt="Cargo van exterior" data-zoom="Cargo Van — urban deliveries" /><figcaption>Cargo Van — urban deliveries</figcaption></figure>
+          <figure><img src="images/van-5.jpg" alt="Large box truck" data-zoom="Box Truck — regional routes" /><figcaption>Box Truck — regional routes</figcaption></figure>
+          <figure><img src="images/van-3.jpg" alt="Refrigerated van" data-zoom="Refrigerated Van — cold chain" /><figcaption>Refrigerated Van — cold chain</figcaption></figure>
+          <figure><img src="images/van-4.jpg" alt="Flatbed truck" data-zoom="Flatbed — oversized loads" /><figcaption>Cargo Van — urban deliveries</figcaption></figure>
+          <figure><img src="images/van-2.jpg" alt="Palletized cargo" data-zoom="Pallet Freight — bulk shipments" /><figcaption>Box Truck — regional routes</figcaption></figure>
+          <figure><img src="images/van-6.jpg" alt="Warehouse loading bay" data-zoom="Loading — secure handling" /><figcaption>Loading — secure handling</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing / Packages -->
+    <section id="pricing" class="section" style="padding-top:0">
+      <div class="container">
+        <h2 style="margin:0 0 8px">Simple, transparent packages</h2>
+        <p style="color:var(--muted);margin:0 0 18px">Fixed‑rate tiers for most shipments. Need something special? Request a custom quote below.</p>
+        <div class="cards">
+          <article class="card"><div class="pill">Small Parcel</div><h3>Starter</h3><div class="price">€499</div><ul class="features"><li>✔ Up to 5 kg, 40×30×20 cm</li><li>✔ 2–4 day delivery</li><li>✔ €1000 insurance</li></ul><a class="btn" href="#" target="_blank" rel="noopener">Buy Now</a></article>
+          <article class="card"><div class="pill">Medium Box</div><h3>Business</h3><div class="price">€999</div><ul class="features"><li>✔ Up to 20 kg, 60×40×40 cm</li><li>✔ 1–3 day delivery</li><li>✔ €2500 insurance</li></ul><a class="btn" href="#" target="_blank" rel="noopener">Buy Now</a></article>
+          <article class="card"><div class="pill">Bulk / Pallet</div><h3>Pro</h3><div class="price">€2499</div><ul class="features"><li>✔ Up to 500 kg pallet</li><li>✔ 1–2 day delivery (priority)</li><li>✔ €10,000 insurance</li></ul><a class="btn" href="#" target="_blank" rel="noopener">Buy Now</a></article>
+        </div>
+        <p style="color:var(--muted);font-size:13px;margin-top:10px">Prices shown are examples. Taxes, surcharges, and remote area fees may apply.</p>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how" class="section" style="padding-top:0">
+      <div class="container">
+        <h2 style="margin:0 0 8px">How it works</h2>
+        <p style="color:var(--muted);margin:0 0 18px">Three steps from pickup to delivery.</p>
+        <div class="steps">
+          <div class="step"><div class="n">STEP 01</div><h4 style="margin:4px 0 8px">Choose package</h4><p style="color:var(--muted);margin:0">Pick a tier or request a custom quote.</p></div>
+          <div class="step"><div class="n">STEP 02</div><h4 style="margin:4px 0 8px">Pay securely</h4><p style="color:var(--muted);margin:0">Secure checkout. You’ll receive a confirmation email.</p></div>
+          <div class="step"><div class="n">STEP 03</div><h4 style="margin:4px 0 8px">Pickup & tracking</h4><p style="color:var(--muted);margin:0">We schedule pickup and send a tracking link.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section" style="padding-top:0">
+      <div class="container">
+        <h2 style="margin:0 0 8px">Frequently asked questions</h2>
+        <details><summary>Do you offer international shipping?</summary><p>Yes. We cover domestic routes and EU cross‑border for most shipments. Contact us for special lanes.</p></details>
+        <details><summary>Are shipments insured?</summary><p>Insurance is included up to the tier limit. Additional coverage available on request.</p></details>
+        <details><summary>How are pickups scheduled?</summary><p>After payment, we email you a link to pick a pickup window and provide labels.</p></details>
+      </div>
+    </section>
+
+    <!-- Contact / Custom Quote -->
+    <section id="contact" class="section" style="padding-top:0">
+      <div class="container">
+        <h2 style="margin:0 0 8px">Request a custom quote</h2>
+        <p style="color:var(--muted);margin:0 0 18px">Tell us about your shipment and we’ll get back within one business hour.</p>
+        <form action="#" method="POST">
+          <div class="grid-2">
+            <input type="text" name="name" placeholder="Full Name" required />
+            <input type="email" name="email" placeholder="Email" required />
+          </div>
+          <div class="grid-2">
+            <input type="text" name="from" placeholder="From (City, Country)" required />
+            <input type="text" name="to" placeholder="To (City, Country)" required />
+          </div>
+          <div class="grid-2">
+            <input type="text" name="dimensions" placeholder="Dimensions (L×W×H cm)" />
+            <input type="number" name="weight" placeholder="Weight (kg)" step="0.1" />
+          </div>
+          <textarea class="full notes" name="notes" rows="6" placeholder="Anything else we should know?"></textarea>
+          <select name="service">
+            <option value="Road">Road</option>
+            <option value="Air">Air</option>
+            <option value="Express">Express</option>
+          </select>
+          <button class="btn" type="submit" style="margin-top:8px">Send Request</button>
+          <p style="color:var(--muted);font-size:12px;margin-top:8px">By submitting, you agree to our <a href="terms.html" style="text-decoration:underline">Terms</a> and <a href="privacy.html" style="text-decoration:underline">Privacy Policy</a>.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container" style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:10px"><div class="logo" aria-hidden="true"></div><div><div style="font-weight:800">SwiftCargo Transport</div><div style="font-size:12px;color:var(--muted)">© <span id="y"></span> SwiftCargo Transport</div></div></div>
+      <div class="footer-links"><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="#contact">Support</a></div>
+    </div>
+  </footer>
+
+  <!-- Lightbox overlay -->
+  <div class="lightbox" id="lightbox" aria-modal="true" role="dialog" aria-labelledby="lightbox-caption" aria-hidden="true">
+    <button class="close" id="lightbox-close" aria-label="Close">✕</button>
+    <div class="lightbox-inner"><img id="lightbox-img" alt="" /><div class="caption" id="lightbox-caption"></div></div>
+  </div>
+
+  <script>
+    // Update year
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click', e=>{const id=a.getAttribute('href').slice(1);const el=document.getElementById(id);if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth'});}})});
+
+    // Mobile nav toggle
+    const btn=document.querySelector('.mobile-toggle');const panel=document.getElementById('mobile-panel');
+    if(btn&&panel){btn.addEventListener('click',()=>{const open=panel.classList.toggle('open');btn.setAttribute('aria-expanded',String(open));panel.setAttribute('aria-hidden',String(!open));});panel.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{panel.classList.remove('open');btn.setAttribute('aria-expanded','false');panel.setAttribute('aria-hidden','true');}));}
+
+    // Simple image lightbox
+    const lb=document.getElementById('lightbox');const lbImg=document.getElementById('lightbox-img');const lbCap=document.getElementById('lightbox-caption');const lbClose=document.getElementById('lightbox-close');
+    document.querySelectorAll('.gallery img').forEach(img=>{img.addEventListener('click',()=>{const src=img.getAttribute('src');const cap=img.getAttribute('data-zoom')||img.getAttribute('alt')||'';lbImg.src=src;lbImg.alt=cap;lbCap.textContent=cap;lb.classList.add('open');lb.setAttribute('aria-hidden','false');lbClose.focus();});});
+    const closeLB=()=>{lb.classList.remove('open');lb.setAttribute('aria-hidden','true');lbImg.src='';};
+    lbClose.addEventListener('click',closeLB);lb.addEventListener('click',(e)=>{if(e.target===lb) closeLB();});document.addEventListener('keydown',(e)=>{if(e.key==='Escape'&&lb.classList.contains('open')) closeLB();});
+  </script>
+</body>
+</html>
